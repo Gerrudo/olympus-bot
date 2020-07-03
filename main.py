@@ -1,22 +1,17 @@
 import discord
+from config import config_channelid, config_token
 
 client = discord.Client()
 
 @client.event
-async def on_ready(client):
+async def on_ready():
     print('We have logged in as {0.user}'.format(client))
-
-    for server in client.servers:
-        if server.name == "Mini Chicken Kievs":
+    channels = client.guilds[0].text_channels
+    for i in channels:
+        if i.id == config_channelid:
             break
     
-    for channel in server.channels:
-        if channel.name == "general":
-            break
-
-    botReady = True
-    if botReady == True:
-        await channel.send('Ready')
+    await i.send(f'sent to {i.name}')
 
 @client.event
 async def on_message(message):
@@ -26,4 +21,4 @@ async def on_message(message):
     if message.content.startswith('$hello'):
         await message.channel.send('Hello!')
     
-client.run('NzI3OTk2MTkwMDkxNzcyMDY3.Xvz-gQ.q6hxill_x1G_GvzF_ePo9F3jfig')
+client.run(config_token)
